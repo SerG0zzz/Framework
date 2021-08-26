@@ -1,0 +1,21 @@
+{
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">=7.1.0",
+        "roave/security-advisories": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src/Framework/"
+        }
+    },
+    "scripts": {
+        "serve": "php -S 223.1.1.174:8080 -t public /home/sergo/development/Framework/public/index.php",
+        "test" : "phpunit --colors=always"
+    }
+}
