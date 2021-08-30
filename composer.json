@@ -4,10 +4,13 @@
     },
     "require": {
         "php": ">=7.1.0",
-        "roave/security-advisories": "dev-master"
+        "psr/http-message": "^1.0",
+        "roave/security-advisories": "dev-master",
+        "zendframework/zend-diactoros": "^2.2",
+        "zendframework/zend-httphandlerrunner": "^1.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.4"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
