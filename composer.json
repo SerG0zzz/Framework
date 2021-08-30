@@ -18,7 +18,7 @@
         }
     },
     "scripts": {
-        "serve": "php -S 223.1.1.174:8080 -t public /home/sergo/development/Framework/public/index.php",
+        "serve": "php -S 192.168.0.101:8080 -t public /home/sergo/development/Framework/public/index.php",
         "test" : "phpunit --colors=always"
     }
 }
