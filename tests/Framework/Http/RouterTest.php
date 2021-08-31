@@ -3,6 +3,7 @@
 namespace Framework\Http;
 
 use Framework\Http\Router\Exception\RequestNotMatchedException;
+use Framework\Http\Router\Exception\RouteNotFoundException;
 use Framework\Http\Router\Result;
 use Framework\Http\Router\RouteCollection;
 use Framework\Http\Router\Router;
@@ -65,7 +66,7 @@ class RouterTest extends TestCase
         $router = new Router($routes);
 
         $this->expectException(RequestNotMatchedException::class);
-        $tmp = $this->buildRequest('GET', '/blog/5');
+        $tmp = $this->buildRequest('GET', '/blog/slug');
         $router->match($tmp);
     }
 

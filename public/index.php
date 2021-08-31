@@ -2,26 +2,28 @@
 
 use App\Http\Action;
 use Framework\Http\Router\Exception\RequestNotMatchedException;
-use Framework\Http\Router\RouteCollection;
-use Framework\Http\Router\Router;
+use Framework\Http\ActionResolver;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Aura\Router\RouterContainer;
+use Framework\Http\Router\AuraRouterAdapter;
 
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
 ### Initialization
 
-$routes = new RouteCollection();
+$aura = new RouterContainer();
+$routes = $aura->getMap();
 
 $routes->get('home', '/', Action\HelloAction::class);
 $routes->get('about', '/about', Action\AboutAction::class);
 $routes->get('blog', '/blog', Action\Blog\IndexAction::class);
-$routes->get('blog_show', '/blog{id}', Action\Blog\ShowAction::class, ['id' => '\d+']);
+$routes->get('blog_show', '/blog/{id}', Action\Blog\ShowAction::class, ['id' => '\d+']);
 
-$router = new Router($routes);
-$resolver = new \Framework\Http\ActionResolver();
+$router = new AuraRouterAdapter($aura);
+$resolver = new ActionResolver();
 
 ### Running
 
@@ -31,9 +33,7 @@ try {
     foreach ($result->getAttributes() as $attribute => $value) {
         $request = $request->withAttribute($attribute, $value);
     }
-    $handler = $result->getHandler();
-    /** @var callable $action */
-    $action = $resolver->resolve($handler);
+    $action = $resolver->resolve($result->getHandler());
     $response = $action($request);
 } catch (RequestNotMatchedException $e) {
     $response = new JsonResponse(['error' => 'Undefined page'], 404);
