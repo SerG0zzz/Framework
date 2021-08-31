@@ -2,7 +2,7 @@
 
 namespace App\Http\Action;
 
-use Zend\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
 class HelloActionTest extends TestCase

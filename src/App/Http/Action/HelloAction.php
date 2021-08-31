@@ -3,7 +3,7 @@
 namespace App\Http\Action;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\HtmlResponse;
 
 class HelloAction
 {

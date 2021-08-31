@@ -7,8 +7,8 @@ use Framework\Http\Router\Result;
 use Framework\Http\Router\RouteCollection;
 use Framework\Http\Router\Router;
 use PHPUnit\Framework\TestCase;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Uri;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 
 class RouterTest extends TestCase
 {

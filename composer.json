@@ -3,11 +3,12 @@
         "sort-packages": true
     },
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.1 <8.1",
+        "aura/router": "^3.1",
+        "laminas/laminas-diactoros": "^2.6",
+        "laminas/laminas-httphandlerrunner": "^2.0",
         "psr/http-message": "^1.0",
-        "roave/security-advisories": "dev-master",
-        "zendframework/zend-diactoros": "^2.2",
-        "zendframework/zend-httphandlerrunner": "^1.1"
+        "roave/security-advisories": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
@@ -19,7 +20,8 @@
         }
     },
     "scripts": {
-        "serve": "php -S 192.168.0.101:8080 -t public /home/sergo/development/Framework/public/index.php",
+        "run-work": "php -S 223.1.1.174:8080 -t public /home/sergo/development/Framework/public/index.php",
+        "run-home": "php -S 192.168.0.101:8080 -t public /home/sergo/development/Framework/public/index.php",
         "test" : "phpunit --colors=always"
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Action;
 
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 class AboutAction
 {
