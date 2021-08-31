@@ -1,13 +1,12 @@
 <?php
 
-use Zend\Diactoros\Response\HtmlResponse;
+use App\Http\Action;
+use Framework\Http\Router\Exception\RequestNotMatchedException;
+use Framework\Http\Router\RouteCollection;
+use Framework\Http\Router\Router;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
-use Psr\Http\Message\ServerRequestInterface;
-use Framework\Http\Router\RouteCollection;
-use Framework\Http\Router\Router;
-use Framework\Http\Router\Exception\RequestNotMatchedException;
 
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
@@ -16,31 +15,13 @@ require 'vendor/autoload.php';
 
 $routes = new RouteCollection();
 
-$routes->get('home', '/', function (ServerRequestInterface $request) {
-    $name = $request->getQueryParams()['name'] ?? 'Guest';
-    return new HtmlResponse('Hello ' . $name . '!');
-});
-
-$routes->get('about', '/about', function () {
-    return new HtmlResponse('I am a simple site');
-});
-
-$routes->get('blog', '/blog', function () {
-    return new JsonResponse([
-        ['id' => 2, 'title' => 'The Second Post'],
-        ['id' => 1, 'title' => 'The First Post'],
-    ]);
-});
-
-$routes->get('blog_show', '/blog/{id}', function (ServerRequestInterface $request) {
-    $id = $request->getAttribute('id');
-    if ($id > 5) {
-        return new JsonResponse(['error' => 'Undefined page'], 404);
-    }
-    return new JsonResponse(['id' => $id, 'title' => 'Post #' . $id]);
-}, ['id' => '\d+']);
+$routes->get('home', '/', Action\HelloAction::class);
+$routes->get('about', '/about', Action\AboutAction::class);
+$routes->get('blog', '/blog', Action\Blog\IndexAction::class);
+$routes->get('blog_show', '/blog{id}', Action\Blog\ShowAction::class, ['id' => '\d+']);
 
 $router = new Router($routes);
+$resolver = new \Framework\Http\ActionResolver();
 
 ### Running
 
@@ -50,8 +31,9 @@ try {
     foreach ($result->getAttributes() as $attribute => $value) {
         $request = $request->withAttribute($attribute, $value);
     }
+    $handler = $result->getHandler();
     /** @var callable $action */
-    $action = $result->getHandler();
+    $action = $resolver->resolve($handler);
     $response = $action($request);
 } catch (RequestNotMatchedException $e) {
     $response = new JsonResponse(['error' => 'Undefined page'], 404);

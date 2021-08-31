@@ -65,7 +65,8 @@ class RouterTest extends TestCase
         $router = new Router($routes);
 
         $this->expectException(RequestNotMatchedException::class);
-        $router->match($this->buildRequest('GET', '/blog/slug'));
+        $tmp = $this->buildRequest('GET', '/blog/5');
+        $router->match($tmp);
     }
 
     public function testGenerate()
