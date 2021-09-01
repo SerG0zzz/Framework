@@ -3,7 +3,7 @@
 use App\Http\Action;
 use Framework\Http\Router\Exception\RequestNotMatchedException;
 use Framework\Http\ActionResolver;
-use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Aura\Router\RouterContainer;
@@ -36,7 +36,7 @@ try {
     $action = $resolver->resolve($result->getHandler());
     $response = $action($request);
 } catch (RequestNotMatchedException $e) {
-    $response = new JsonResponse(['error' => 'Undefined page'], 404);
+    $response = new HtmlResponse('Undefined page', 404);
 }
 
 ### Postprocessing
