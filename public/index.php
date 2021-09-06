@@ -8,17 +8,32 @@ use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Aura\Router\RouterContainer;
 use Framework\Http\Router\AuraRouterAdapter;
+use Psr\Http\Message\ServerRequestInterface;
 
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
 ### Initialization
 
+$params = [
+    'users' => ['admin' => 'password'],
+];
+
 $aura = new RouterContainer();
 $routes = $aura->getMap();
 
 $routes->get('home', '/', Action\HelloAction::class);
 $routes->get('about', '/about', Action\AboutAction::class);
+
+$routes->get('cabinet', '/cabinet', function (ServerRequestInterface $request) use ($params) {
+    $auth = new Action\Middleware\BasicAuthMiddleware($params['users']);
+    $cabinet = new Action\CabinetAction();
+
+    return $auth($request, function (ServerRequestInterface $request) use ($cabinet) {
+       return $cabinet($request);
+    });
+});
+
 $routes->get('blog', '/blog', Action\Blog\IndexAction::class);
 $routes->get('blog_show', '/blog/{id}', Action\Blog\ShowAction::class, ['id' => '\d+']);
 
