@@ -7,9 +7,13 @@ use Laminas\Diactoros\Response\HtmlResponse;
 
 class CabinetAction
 {
+    const ATTRIBUTE = '_user';
+
     public function __invoke(ServerRequestInterface $request)
     {
-        $username = $request->getAttribute('username');
+        //throw new \RuntimeException('Error');
+
+        $username = $request->getAttribute(self::ATTRIBUTE);
 
         return new HtmlResponse('I am logged in as ' . $username);
     }

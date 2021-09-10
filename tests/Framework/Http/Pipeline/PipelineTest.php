@@ -46,6 +46,6 @@ class Last
 {
     public function __invoke(ServerRequestInterface $request)
     {
-        return new JsonResponse($request->getAttribute());
+        return new JsonResponse($request->getAttributes());
     }
 }
