@@ -2,9 +2,8 @@
 
 namespace Framework\Http\Pipeline;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class InteropHandlerWrapper implements RequestHandlerInterface
 {
@@ -15,7 +14,7 @@ class InteropHandlerWrapper implements RequestHandlerInterface
         $this->callback = $callback;
     }
 
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    public function handle(ServerRequestInterface $request)
     {
         return ($this->callback)($request);
     }

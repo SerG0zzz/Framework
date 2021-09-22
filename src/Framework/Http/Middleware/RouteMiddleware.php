@@ -2,11 +2,10 @@
 
 namespace Framework\Http\Middleware;
 
-use Framework\Http\Pipeline\MiddlewareResolver;
 use Framework\Http\Router\Exception\RequestNotMatchedException;
-use Psr\Http\Message\ServerRequestInterface;
-use Framework\Http\Router\Router;
 use Framework\Http\Router\Result;
+use Framework\Http\Router\Router;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RouteMiddleware
 {

@@ -14,12 +14,12 @@ class MiddlewareResolverTest extends TestCase
 {
     /**
      * @dataProvider getValidHandlers
-     * $param $handler
+     * @param $handler
      */
-    public function testDirect($handler)
+    public function testDirect($handler): void
     {
         $resolver = new MiddlewareResolver();
-        $middleware = $resolver->resolve($handler);
+        $middleware = $resolver->resolve($handler, new Response());
 
         /** @var ResponseInterface $response */
         $response = $middleware(
@@ -35,10 +35,10 @@ class MiddlewareResolverTest extends TestCase
      * @dataProvider getValidHandlers
      * @param $handler
      */
-    public function testNext($handler)
+    public function testNext($handler): void
     {
-        //$resolver = new MiddlewareResolver();
-        $middleware = (new MiddlewareResolver())->resolve($handler);
+        $resolver = new MiddlewareResolver();
+        $middleware = $resolver->resolve($handler, new Response());
 
         /** @var ResponseInterface $response */
         $response = $middleware(
@@ -50,7 +50,7 @@ class MiddlewareResolverTest extends TestCase
         self::assertEquals(404, $response->getStatusCode());
     }
 
-    public function getValidHandlers()
+    public function getValidHandlers(): array
     {
         return [
             'Callable Callback' => [function (ServerRequestInterface $request, callable $next) {
@@ -76,14 +76,14 @@ class MiddlewareResolverTest extends TestCase
         ];
     }
 
-    public function testArray()
+    public function testArray(): void
     {
         $resolver = new MiddlewareResolver();
 
         $middleware = $resolver->resolve([
             new DummyMiddleware(),
             new CallableMiddleware()
-        ]);
+        ], new Response());
 
         /** @var ResponseInterface $response */
         $response = $middleware(
@@ -123,7 +123,7 @@ class DoublePassMiddleware
 
 class InteropMiddleware implements MiddlewareInterface
 {
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         if ($request->getAttribute('next')) {
             return $handler->handle($request);

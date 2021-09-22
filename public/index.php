@@ -13,7 +13,6 @@ use Framework\Http\Router\AuraRouterAdapter;
 use Psr\Http\Message\ServerRequestInterface;
 use Framework\Http\Application;
 use App\Http\Middleware;
-use Laminas\
 
 //ini_set('display_errors', 'off');
 
@@ -37,8 +36,9 @@ $routes->get('blog', '/blog', Action\Blog\IndexAction::class);
 $routes->get('blog_show', '/blog/{id}', Action\Blog\ShowAction::class)->tokens(['id' => '\d+']);
 
 $router = new AuraRouterAdapter($aura);
-$resolver = new MiddlewareResolver(new Middleware\NotFoundHandler(), new Response());
-$app = new Application($resolver, );
+
+$resolver = new MiddlewareResolver();
+$app = new Application($resolver, new Middleware\NotFoundHandler(), new Response());
 
 $app->pipe(new Middleware\ErrorHandlerMiddleware($params['debug']));
 $app->pipe(Middleware\CredentialsMiddleware::class);
@@ -47,14 +47,12 @@ $app->pipe(new Framework\Http\Middleware\RouteMiddleware($router));
 $app->pipe('cabinet', new Middleware\BasicAuthMiddleware($params['users']));
 $app->pipe(new Framework\Http\Middleware\DispatchMiddleware($resolver));
 
-$container = new \Laminas\ServiceManager\ServiceManager();
-$container->setService();
-$container->get();
+
 
 ### Running
 
 $request = ServerRequestFactory::fromGlobals();
-$response = $app->handle($request);
+$response = $app->run($request, new Response());
 
 ### Sending
 

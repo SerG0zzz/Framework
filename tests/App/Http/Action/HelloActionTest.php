@@ -18,7 +18,7 @@ class HelloActionTest extends TestCase
         self::assertEquals('Hello, Guest!', $response->getBody()->getContents());
     }
 
-    public function testJonh()
+    public function testJohn()
     {
         $action = new HelloAction();
 

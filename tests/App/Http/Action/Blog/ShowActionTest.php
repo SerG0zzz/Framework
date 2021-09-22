@@ -4,6 +4,7 @@ namespace App\Http\Action\Blog;
 
 use App\Http\Middleware\NotFoundHandler;
 use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\HtmlResponse;
 use PHPUnit\Framework\TestCase;
 
 class ShowActionTest extends TestCase
@@ -31,7 +32,9 @@ class ShowActionTest extends TestCase
         $request = (new ServerRequest())
             ->withAttribute('id', $id = 10);
 
-        $response = $action($request, new NotFoundHandler());
+        $response = $action($request, function () {
+		    return new HtmlResponse('Not found', 404);
+		});
 
         self::assertEquals(404, $response->getStatusCode());
         self::assertEquals('Undefined page', $response->getBody()->getContents());

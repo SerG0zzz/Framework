@@ -27,7 +27,7 @@ class AuraRouterAdapter implements Router
         throw new RequestNotMatchedException($request);
     }
 
-    public function generate($name, array $params = []): string
+    public function generate($name, array $params): string
     {
         $generator = $this->aura->getGenerator();
         try {

@@ -2,8 +2,8 @@
 
 namespace Framework\Http\Router;
 
-use Framework\Http\Router\Exception\RouteNotFoundException;
 use Framework\Http\Router\Exception\RequestNotMatchedException;
+use Framework\Http\Router\Exception\RouteNotFoundException;
 use Psr\Http\Message\ServerRequestInterface;
 
 interface Router
@@ -21,5 +21,5 @@ interface Router
      * @throws RouteNotFoundException
      * @return string
      */
-    public function generate($name, array $params = []): string;
+    public function generate($name, array $params): string;
 }

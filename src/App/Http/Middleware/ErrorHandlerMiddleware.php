@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\JsonResponse;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ErrorHandlerMiddleware
@@ -16,7 +15,7 @@ class ErrorHandlerMiddleware
         $this->debug = $debug;
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    public function __invoke(ServerRequestInterface $request, callable $next)
     {
         try {
             return $next($request);
@@ -25,7 +24,7 @@ class ErrorHandlerMiddleware
                 return new JsonResponse([
                     'error' => 'Server error',
                     'code' => $e->getCode(),
-                    'massage' => $e->getMessage(),
+                    'message' => $e->getMessage(),
                     'trace' => $e->getTrace(),
                 ], 500);
             }
