@@ -5,7 +5,7 @@ namespace Framework\Http;
 use Framework\Http\Pipeline\MiddlewareResolver;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class Application extends MiddlewarePipe
 {

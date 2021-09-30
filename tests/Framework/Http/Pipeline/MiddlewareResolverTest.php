@@ -2,8 +2,11 @@
 
 namespace Framework\Http\Pipeline;
 
+use Framework\Http\Pipeline\MiddlewareResolver;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Response\EmptyResponse;
+use Laminas\Diactoros\Response\HtmlResponse;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -123,7 +126,7 @@ class DoublePassMiddleware
 
 class InteropMiddleware implements MiddlewareInterface
 {
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ($request->getAttribute('next')) {
             return $handler->handle($request);
